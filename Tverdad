@@ -1,0 +1,81 @@
+public class Tverdad 
+{
+	private int p=0, q=0;
+	int valor=0;
+	
+	public int Negacion(int p)
+	{
+		this.p=p;
+		
+		if(this.p==1)
+		{
+			valor=0;
+		
+			
+		}
+		else if(this.p==0)
+		{
+			valor=1;
+			
+		}
+		return valor;
+	}
+	
+	public int Conjuncion(int p, int q)
+	{
+		this.p=p;
+		this.q=q;
+		if((this.p==1)&&(this.q==1))
+		{
+			valor=1;
+		}
+		else
+		{
+			valor=0;
+		}
+		return valor;
+	}
+	public int Disyuncion(int p, int q)
+	{
+		this.p=p;
+		this.q=q;
+		if((this.p==0)&&(this.q==0))
+		{
+			valor=0;
+		}
+		else
+		{
+			valor=1;
+		}
+		return valor;
+	}
+	public int Implicacion(int p, int q)
+	{
+		this.p=p;
+		this.q=q;
+		if((this.p==1)&&(this.q==0))
+		{
+			valor=0;
+		}
+		else
+		{
+			valor=1;
+		}
+		return valor;
+	}
+	public int DobleImplicacion(int p, int q)
+	{
+		this.p=p;
+		this.q=q;
+		if(this.p==this.q)
+		{
+			valor=1;
+		}
+		else
+		{
+			valor=0;
+		}
+		return valor;
+	}
+
+}
