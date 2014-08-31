@@ -1,0 +1,298 @@
+
+public class MAin 
+{
+
+	public static void main(String[] args) 
+	{
+		int CuantasLetras=5;
+		ValoresIniciales Inicia=new ValoresIniciales();
+		Inicia.AsignarValoresIniciales(CuantasLetras);
+	    Tverdad Opera=new Tverdad();
+		
+		String propOriginal="((pV(qAr))->(^sV^t))";
+		String Resultado;
+		Separar Separa=new Separar();
+		Resultado=Separa.SepararNegado(propOriginal);
+		//System.out.println(Resultado);
+		Resultado=Separa.SepararSimples(Resultado);
+		//System.out.println(Resultado);
+		int CuantasProp=Separa.CuantasProp();
+		System.out.println("////////// Numero de proposiciones "+CuantasProp);
+		int lim=0;
+		for(int i=1;i<7;i++)
+		{
+			if(CuantasLetras==i)
+			{
+				lim=(int)Math.pow(2,i);
+			}
+		}
+		int TablaFinal[][]=new int[lim][CuantasProp];
+		System.out.println("0 "+Separa.Proposiciones[0]);
+		System.out.println("1 "+Separa.Proposiciones[1]);
+		System.out.println("2 "+Separa.Proposiciones[2]);
+		System.out.println("3 "+Separa.Proposiciones[3]);
+		System.out.println("4 "+Separa.Proposiciones[4]);
+		System.out.println("5 "+Separa.Proposiciones[5]);
+		
+		////////////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////
+		////////// cOMPARACION ////////////////////////////////////////
+		///////////////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////
+		for(int ip=0;ip<CuantasProp;ip++)
+		{
+			if(Separa.Proposiciones[ip].contains("^"))
+			{
+				for(int ic=0;ic<CuantasLetras;ic++)
+				{
+					if(Separa.Proposiciones[ip].contains(Inicia.Letras[ic]))
+					{
+						for(int j=0; j<lim; j++)
+						{
+							TablaFinal[j][ip]=Opera.Negacion(Inicia.TablaInicial[j][ic]);
+						//	System.out.println("prop="+ip+"  letra"+ic+"  neg"+TablaFinal[j][ip]);
+						}
+					}
+				}
+			}
+			else if(Separa.Proposiciones[ip].contains("A"))
+			{
+				for(int ic=0;ic<CuantasLetras;ic++)
+				{
+					if(Separa.Proposiciones[ip].contains(Inicia.Letras[ic]+"A"))
+					{
+						for(int ic2=0;ic2<CuantasLetras;ic2++)
+						{
+							if(Separa.Proposiciones[ip].contains("A"+Inicia.Letras[ic2]))
+							{
+								for(int j=0; j<lim; j++)
+								{
+									TablaFinal[j][ip]=Opera.Conjuncion(Inicia.TablaInicial[j][ic], Inicia.TablaInicial[j][ic2]);
+								//	System.out.println("prop="+ip+"  letra"+ic+"  conj"+TablaFinal[j][ip]);
+								}
+								
+							}
+							
+						}
+						for(int ip2=0;ip2<10;ip2++)
+						{
+							String num=Integer.toString(ip2);
+							if(Separa.Proposiciones[ip].contains("A"+num))
+							{
+								for(int j=0; j<lim; j++)
+								{
+									TablaFinal[j][ip]=Opera.Conjuncion(Inicia.TablaInicial[j][ic], TablaFinal[j][ip2]);
+								//	System.out.println("prop="+ip+"  letra"+ic+"  conj"+TablaFinal[j][ip]);
+								}
+								
+							}
+						}
+					}
+				}
+			}
+			else if(Separa.Proposiciones[ip].contains("V"))
+			{
+				for(int ic=0;ic<CuantasLetras;ic++)
+				{
+					if(Separa.Proposiciones[ip].contains(Inicia.Letras[ic]+"V"))
+					{
+						for(int ic2=0;ic2<CuantasLetras;ic2++)
+						{
+							if(Separa.Proposiciones[ip].contains("V"+Inicia.Letras[ic2]))
+							{
+								for(int j=0; j<lim; j++)
+								{
+									TablaFinal[j][ip]=Opera.Disyuncion(Inicia.TablaInicial[j][ic], Inicia.TablaInicial[j][ic2]);
+								//	System.out.println("prop="+ip+"  letra"+ic+"  conj"+TablaFinal[j][ip]);
+								}
+								
+							}
+							
+						}
+						for(int ip2=0;ip2<10;ip2++)
+						{
+							String num=Integer.toString(ip2);
+							if(Separa.Proposiciones[ip].contains("V"+num))
+							{
+								for(int j=0; j<lim; j++)
+								{
+									TablaFinal[j][ip]=Opera.Disyuncion(Inicia.TablaInicial[j][ic], TablaFinal[j][ip2]);
+								//	System.out.println("prop="+ip+"  letra"+ic+"  conj"+TablaFinal[j][ip]);
+								}
+								
+							}
+						}
+					}
+				}
+				for(int ip2=0;ip2<10;ip2++)
+				{
+					String num=Integer.toString(ip2);
+					if(Separa.Proposiciones[ip].contains(num+"V"))
+					{
+						for(int ic2=0;ic2<CuantasLetras;ic2++)
+						{
+							if(Separa.Proposiciones[ip].contains("V"+Inicia.Letras[ic2]))
+							{
+								for(int j=0; j<lim; j++)
+								{
+									TablaFinal[j][ip]=Opera.Disyuncion(TablaFinal[j][ip2], Inicia.TablaInicial[j][ic2]);
+								//	System.out.println("prop="+ip+"  letra"+ic+"  conj"+TablaFinal[j][ip]);
+								}
+								
+							}
+							
+						}
+						for(int ip3=0;ip3<10;ip3++)
+						{
+							String num2=Integer.toString(ip3);
+							if(Separa.Proposiciones[ip].contains("V"+num2))
+							{
+								for(int j=0; j<lim; j++)
+								{
+									TablaFinal[j][ip]=Opera.Disyuncion(TablaFinal[j][ip2], TablaFinal[j][ip3]);
+								//	System.out.println("prop="+ip+"  letra"+ic+"  conj"+TablaFinal[j][ip]);
+								}
+								
+							}
+						}
+						
+					}
+				}
+			}
+			else if(Separa.Proposiciones[ip].contains("->"))
+			{
+				for(int ic=0;ic<CuantasLetras;ic++)
+				{
+					if(Separa.Proposiciones[ip].contains(Inicia.Letras[ic]+"->"))
+					{
+						for(int ic2=0;ic2<CuantasLetras;ic2++)
+						{
+							if(Separa.Proposiciones[ip].contains("->"+Inicia.Letras[ic2]))
+							{
+								for(int j=0; j<lim; j++)
+								{
+									TablaFinal[j][ip]=Opera.Implicacion(Inicia.TablaInicial[j][ic], Inicia.TablaInicial[j][ic2]);
+								//	System.out.println("prop="+ip+"  letra"+ic+"  conj"+TablaFinal[j][ip]);
+								}
+								
+							}
+							
+						}
+						for(int ip2=0;ip2<10;ip2++)
+						{
+							String num=Integer.toString(ip2);
+							if(Separa.Proposiciones[ip].contains("->"+num))
+							{
+								for(int j=0; j<lim; j++)
+								{
+									TablaFinal[j][ip]=Opera.Implicacion(Inicia.TablaInicial[j][ic], TablaFinal[j][ip2]);
+								//	System.out.println("prop="+ip+"  letra"+ic+"  conj"+TablaFinal[j][ip]);
+								}
+								
+							}
+						}
+					}
+				}
+				for(int ip2=0;ip2<10;ip2++)
+				{
+					String num=Integer.toString(ip2);
+					if(Separa.Proposiciones[ip].contains(num+"->"))
+					{
+						for(int ic2=0;ic2<CuantasLetras;ic2++)
+						{
+							if(Separa.Proposiciones[ip].contains("->"+Inicia.Letras[ic2]))
+							{
+								for(int j=0; j<lim; j++)
+								{
+									TablaFinal[j][ip]=Opera.Implicacion(TablaFinal[j][ip2], Inicia.TablaInicial[j][ic2]);
+								//	System.out.println("prop="+ip+"  letra"+ic+"  conj"+TablaFinal[j][ip]);
+								}
+								
+							}
+							
+						}
+						for(int ip3=0;ip3<10;ip3++)
+						{
+							String num2=Integer.toString(ip3);
+							if(Separa.Proposiciones[ip].contains("->"+num2))
+							{
+								for(int j=0; j<lim; j++)
+								{
+									TablaFinal[j][ip]=Opera.Implicacion(TablaFinal[j][ip2], TablaFinal[j][ip3]);
+								//	System.out.println("prop="+ip+"  letra"+ic+"  conj"+TablaFinal[j][ip]);
+								}
+								
+							}
+						}
+						
+					}
+				}
+			}
+		}
+		////////////////////////////////////////////////////////////////
+		///////////////////////   IMPRESION   /////////////////////////
+		////////////////////////////////////////////////////////////////
+		for(int i=0;i<CuantasLetras;i++)
+		{
+			System.out.print(Inicia.Letras[i]+" ");
+		}
+		String PropTemp[]=Separa.Proposiciones;
+		for(int i=0;i<CuantasProp;i++)
+		{
+			for(int ip=0; ip<CuantasProp;ip++)
+			{
+				String num=Integer.toString(ip);
+			    if(PropTemp[i].contains(num))
+				{
+					PropTemp[i]=(PropTemp[i].replace(num, PropTemp[ip]));
+				    
+				}
+			}
+		}
+		for(int i=0;i<CuantasProp;i++)
+		{
+			System.out.print(PropTemp[i]+" ");
+		}
+		System.out.println();
+		
+		/*for(int i=0;i<2;i++)
+		{
+			for(int j=0;j<CuantasLetras;j++)
+			{
+				
+				System.out.print(Inicia.TablaInicial[i][j]+"|");
+			}
+			System.out.print(+TablaFinal[i][0]+"|"+" "+TablaFinal[i][1]+" |"+"  "+TablaFinal[i][2]+" |  "+"   "+TablaFinal[i][3]+"    | "+"   "+TablaFinal[i][4]+"   | "+"        "+TablaFinal[i][5]);
+			System.out.println("\n-------------------------------------------------------------");
+			
+		}*/
+		
+		for(int i=0;i<lim;i++)
+		{
+			for(int j=0;j<CuantasLetras;j++)
+			{
+				if(Inicia.TablaInicial[i][j]==1)
+				{
+					System.out.print("V|");
+				}
+				else 
+				{
+					System.out.print("F|");
+				}
+			}
+			for(int j=0;j<CuantasProp;j++)
+			{
+				if(TablaFinal[i][j]==1)
+				{
+					System.out.print("  V  |");
+				}
+				else
+				{
+					System.out.print("  F  |");
+				}
+			}
+			System.out.println("\n-----------------------------------------");
+		}
+	}
+
+}
