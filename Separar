@@ -1,0 +1,67 @@
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+
+public class Separar 
+{
+	String CadenaOriginal="";
+	String CadenaTemporal="";
+	String Resultado="";
+	String Proposiciones[]=new String[10];
+	String j="";
+	int i=0;
+	
+	public String SepararNegado(String Original)
+	{
+		CadenaOriginal=Original;
+		Resultado=Original;
+		
+		// compilamos el patron
+		Pattern patron = Pattern.compile("[\\^][p-u]");
+		// creamos el Matcher a partir del patron, la cadena como parametro
+		Matcher encaja = patron.matcher(CadenaOriginal);
+		
+		while (encaja.find()) 
+		{
+			
+			CadenaTemporal=Resultado.substring(encaja.start(), encaja.end());
+			Proposiciones[i]=CadenaTemporal;
+			j=Integer.toString(i);
+			i++;
+			Resultado = encaja.replaceFirst(j);
+			encaja = patron.matcher(Resultado);
+			System.out.println(Resultado);
+		}
+		return Resultado;
+	}
+	public String SepararSimples(String Original)
+	{
+		CadenaOriginal=Original;
+		Resultado=Original;
+		
+		// compilamos el patron
+		Pattern patron = Pattern.compile("[(][p-u|0-9][V|A|\\-\\>|\\<\\-\\>][p-u|0-9][)]");
+		// creamos el Matcher a partir del patron, la cadena como parametro
+		Matcher encaja = patron.matcher(CadenaOriginal);
+		
+		while (encaja.find()) 
+		{
+			
+			CadenaTemporal=Resultado.substring(encaja.start(), encaja.end());
+			Proposiciones[i]=CadenaTemporal;
+			j=Integer.toString(i);
+			i++;
+			Resultado = encaja.replaceFirst(j);
+			encaja = patron.matcher(Resultado);
+			System.out.println(Resultado);
+		}
+		
+		return Resultado;
+	}
+	
+	public int CuantasProp()
+	{
+		Proposiciones[i]=Resultado;
+		return i+1;
+	}
+}
